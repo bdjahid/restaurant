@@ -4,13 +4,13 @@ import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-s
 import { AuthContext } from '../../../providers/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import SocialLogin from '../../../components/SocialLogin/SocialLogin';
 
 
 
 const Login = () => {
     const { signInUser } = useContext(AuthContext);
     const [disabled, setDisAbled] = useState(true);
-
     const location = useLocation();
     const navigate = useNavigate();
     const from = location.state?.from?.pathname || "/";
@@ -88,6 +88,7 @@ const Login = () => {
                         </div>
                     </form>
                     <p className='text-center'><small>New Here? <Link to='/signup'>Create an account Sign Up</Link></small></p>
+                    <SocialLogin></SocialLogin>
                 </div>
             </div>
         </div>

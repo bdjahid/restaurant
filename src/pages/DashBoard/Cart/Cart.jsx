@@ -1,11 +1,42 @@
 
 import { CiTrash } from 'react-icons/ci';
 import useCart from './../../../hooks/useCart';
+import Swal from 'sweetalert2';
+import useAxios from '../../../hooks/useAxios';
 
 
 const Cart = () => {
-    const [cart] = useCart();
-    const totalPrice = cart.reduce((total, item) => total + item.price, 0)
+    const axiosSecure = useAxios()
+    const [cart, refetch] = useCart();
+    // console.log(cart)
+    const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+
+    const handleDelete = _id => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/carts/${_id}`)
+                    .then(res => {
+                        console.log(res)
+                        refetch()
+                        if (res.data.deletedCount > 0) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                        }
+                    })
+            }
+        });
+    }
     return (
         <div>
             <div className='flex justify-evenly'>
@@ -45,9 +76,11 @@ const Cart = () => {
                                 <td>
                                     {item.name}
                                 </td>
-                                <td>{item.price}</td>
+                                <td>${item.price}</td>
                                 <th>
-                                    <button className="btn btn-ghost btn-xs text-lg"><CiTrash className='text-red-900'></CiTrash></button>
+                                    <button
+                                        onClick={() => handleDelete(item._id)}
+                                        className="btn btn-ghost btn-xs text-lg"><CiTrash className='text-red-900'></CiTrash></button>
                                 </th>
                             </tr>
                             )
@@ -56,7 +89,7 @@ const Cart = () => {
 
                 </table>
             </div>
-        </div>
+        </div >
     );
 };
 

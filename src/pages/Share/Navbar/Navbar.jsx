@@ -22,8 +22,6 @@ const Navbar = () => {
                 <div className="badge badge-secondary">+{cart.length}</div>
             </button>
         </NavLink></li>
-
-
         {
             user ? <>
                 <button onClick={handleLogOut} className="btn btn-ghost">LogOut</button>

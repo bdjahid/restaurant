@@ -1,32 +1,64 @@
 
 import { NavLink, Outlet } from 'react-router-dom';
-import { CiBookmark, CiCalendar, CiHome, CiMemoPad, CiReceipt, CiShoppingCart } from "react-icons/ci";
+import { CiBookmark, CiCalendar, CiHome, CiMemoPad, CiReceipt, CiShoppingCart, CiUser, CiVoicemail } from "react-icons/ci";
+import useCart from '../../hooks/useCart';
 
 const Dashboard = () => {
+    const [cart] = useCart();
+    const isAdmin = true;
     return (
         <div className='flex'>
             <div className="w-64 min-h-screen bg-orange-400">
                 <ul className="menu">
-                    <li>
-                        <NavLink to="/dashboard/cart">
-                            <CiShoppingCart />My Cart</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/userHome">
-                            <CiHome />User Home</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/reservation">
-                            <CiCalendar />Reservation</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/review">
-                            <CiReceipt />Review</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/booking">
-                            <CiBookmark />Bookings</NavLink>
-                    </li>
+                    {
+                        isAdmin ? <>
+                            <li>
+                                <NavLink to="/dashboard/adminHome">
+                                    <CiHome />Admin Home</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/addItems">
+                                    <CiBookmark />Add Items</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/manageItems">
+                                    <CiBookmark />Manage Items</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/manageBookings">
+                                    <CiBookmark />Manage Bookings</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/users">
+                                    <CiUser />All Users</NavLink>
+                            </li>
+
+                        </> :
+                            <>
+                                <li>
+                                    <NavLink to="/dashboard/cart">
+                                        <CiShoppingCart />My Cart {cart.length}</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/dashboard/userHome">
+                                        <CiHome />User Home</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/dashboard/reservation">
+                                        <CiCalendar />Reservation</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/dashboard/review">
+                                        <CiReceipt />Review</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/dashboard/booking">
+                                        <CiBookmark />Bookings</NavLink>
+                                </li>
+
+                            </>
+                    }
+                    {/*  */}
                     <div className='divider'></div>
                     <li>
                         <NavLink to="/">
@@ -35,6 +67,10 @@ const Dashboard = () => {
                     <li>
                         <NavLink to="/order/salad">
                             <CiMemoPad />Menu</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/order/contact">
+                            <CiVoicemail />Contact</NavLink>
                     </li>
 
                 </ul>
