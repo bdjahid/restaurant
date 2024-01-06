@@ -2,10 +2,11 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { CiBookmark, CiCalendar, CiHome, CiMemoPad, CiReceipt, CiShoppingCart, CiUser, CiVoicemail } from "react-icons/ci";
 import useCart from '../../hooks/useCart';
+import useAdmin from '../../hooks/useAdmin';
 
 const Dashboard = () => {
     const [cart] = useCart();
-    const isAdmin = true;
+    const isAdmin = useAdmin();
     return (
         <div className='flex'>
             <div className="w-64 min-h-screen bg-orange-400">
