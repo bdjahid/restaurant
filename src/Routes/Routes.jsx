@@ -8,6 +8,9 @@ import SignUp from './../pages/Home/SignUp/SignUp';
 import Dashboard from './../Layout/Dashboard/Dashboard';
 import Cart from './../pages/DashBoard/Cart/Cart';
 import AllUsers from "../pages/DashBoard/AllUsers/AllUsers";
+import AddItems from "../pages/DashBoard/AddItems/AddItems";
+import AminRoute from "./AminRoute";
+import ManageAllItems from "../pages/DashBoard/ManageAllItems/ManageAllItems";
 
 
 
@@ -44,14 +47,24 @@ const router = createBrowserRouter([
         path: "dashboard",
         element: <Dashboard></Dashboard>,
         children: [
+            // all user
             {
                 path: "cart",
                 element: <Cart></Cart>
             },
-            // users admin
+            // users only admin
+            {
+                path: "addItems",
+                element: <AminRoute><AddItems></AddItems></AminRoute>
+            },
+            {
+                path: "manageAllItems",
+                element: <ManageAllItems></ManageAllItems>
+            },
             {
                 path: "users",
                 element: <AllUsers></AllUsers>
+
             }
         ]
     }

@@ -22,8 +22,8 @@ const Dashboard = () => {
                                     <CiBookmark />Add Items</NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/manageItems">
-                                    <CiBookmark />Manage Items</NavLink>
+                                <NavLink to="/dashboard/manageAllItems">
+                                    <CiBookmark />Manage All Items</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/manageBookings">
