@@ -1,12 +1,41 @@
 import { CiEdit, CiTrash } from "react-icons/ci";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import useMenu from "../../../hooks/useMenu";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import useAxios from "../../../hooks/useAxios";
 
 
 const ManageAllItems = () => {
-    const [menu] = useMenu();
-    const handleDelete = () => {
+    const [menu, , refetch] = useMenu();
 
+    const axiosSecure = useAxios();
+
+    const handleDelete = (item) => {
+        // console.log('item', item)
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const res = await axiosSecure.delete(`/menu/${item._id}`)
+                console.log(res.data)
+                if (res.data.deletedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        title: `${item.name} has been deleted`,
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                }
+
+            }
+        });
     }
 
     const handleUpdate = () => {
@@ -51,13 +80,15 @@ const ManageAllItems = () => {
                                     </td>
                                     <td>${item.price}</td>
                                     <td>
-                                        <button
-                                            onClick={() => handleUpdate(menu)}
-                                            className="btn btn-ghost btn-xs text-lg"><CiEdit className='text-red-900'></CiEdit></button>
+                                        <Link to={`/dashboard/updateItem/${item._id}`}>
+                                            <button
+                                                onClick={() => handleUpdate(menu)}
+                                                className="btn btn-ghost btn-xs text-lg"><CiEdit className='text-red-900'></CiEdit></button>
+                                        </Link>
                                     </td>
                                     <th>
                                         <button
-                                            onClick={() => handleDelete(item._id)}
+                                            onClick={() => handleDelete(item)}
                                             className="btn btn-ghost btn-xs text-lg"><CiTrash className='text-red-900'></CiTrash></button>
                                     </th>
                                 </tr>
