@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import useAxios from './../../../hooks/useAxios';
 import useCart from './../../../hooks/useCart';
 import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 
 const CheckOutForm = () => {
@@ -13,16 +15,19 @@ const CheckOutForm = () => {
     const [transactionId, setTransactionId] = useState('');
     const [clientSecret, setClientSecret] = useState('');
     const axiosSecure = useAxios();
-    const [cart] = useCart();
+    const [cart, refetch] = useCart();
+    const navigate = useNavigate();
     // console.log(cart)
     const totalPrice = cart.reduce((total, item) => total + item.price, 0);
 
     useEffect(() => {
-        axiosSecure.post('/create-payment-intent', { price: totalPrice })
-            .then(res => {
-                console.log(res.data.clientSecret)
-                setClientSecret(res.data.clientSecret)
-            })
+        if (totalPrice > 0) {
+            axiosSecure.post('/create-payment-intent', { price: totalPrice })
+                .then(res => {
+                    console.log(res.data.clientSecret)
+                    setClientSecret(res.data.clientSecret)
+                })
+        }
     }, [axiosSecure, totalPrice])
 
     const handleSubmit = async (event) => {
@@ -81,6 +86,17 @@ const CheckOutForm = () => {
                 }
                 const res = await axiosSecure.post('/payments', payment)
                 console.log('payment', res.data)
+                refetch();
+                if (res.data?.paymentResult?.insertedId) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Payment successful',
+                        icon: 'success',
+                        confirmButtonText: 'ok'
+                    })
+                    navigate('/dashboard/paymentHistory')
+                }
+
             }
         }
     }

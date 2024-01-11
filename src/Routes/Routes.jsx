@@ -13,6 +13,7 @@ import AminRoute from "./AminRoute";
 import ManageAllItems from "../pages/DashBoard/ManageAllItems/ManageAllItems";
 import UpdateItem from "../pages/DashBoard/UpdateItem/UpdateItem";
 import Payment from "../pages/DashBoard/Payment/Payment";
+import PaymentHistory from "../Layout/Dashboard/PaymentHistory/PaymentHistory";
 
 
 
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
             {
                 path: "payment",
                 element: <Payment></Payment>
+            },
+            {
+                path: "paymentHistory",
+                element: <PaymentHistory></PaymentHistory>
             },
             // users only admin
             {

@@ -57,6 +57,10 @@ const Dashboard = () => {
                                     <NavLink to="/dashboard/booking">
                                         <CiBookmark />Bookings</NavLink>
                                 </li>
+                                <li>
+                                    <NavLink to="/dashboard/paymentHistory">
+                                        <CiBookmark />Payment real History</NavLink>
+                                </li>
 
                             </>
                     }
